@@ -1,0 +1,8 @@
+[all:vars]
+ansible_connection=ssh 
+ansible_ssh_private_key=xxx
+ansible_user=ubuntu
+
+[naxsi]
+xx.xx.xx.xx inv_hostname="naxsi-test"
+

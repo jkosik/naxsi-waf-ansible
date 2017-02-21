@@ -1,0 +1,31 @@
+---
+
+### set proxy ###
+- hosts: all
+  become: yes
+  gather_facts: false
+  roles:
+    - { role: ansible-set-proxy, http_proxy_address: "http://xxx.xx:3128", https_proxy_address: "http://xxx.xx:3128", tags: ["set-proxy"] }
+
+
+### this block is mainly because Ubuntu xenial doesn't have ###
+- hosts: all
+  become: yes
+  gather_facts: false
+  roles:
+    - { role: ansible-py2-bootstrap, tags: [ "py2-bootstrap"] }
+
+### set hostname ###
+- hosts: all
+  become: yes
+  roles:
+#    - { role: ansible-locale, when: ansible_os_family == 'Debian', tags: ['locale'] }
+    - { role: ansible-fqdn, fqdn: "{{ inv_hostname }}", tags: ['fqdn'] }
+
+### install git ###
+- hosts: all
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: Locale hack - needed for e.g. pip install...
+      raw: export LC_ALL=C
